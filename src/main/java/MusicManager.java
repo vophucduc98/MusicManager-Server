@@ -4,10 +4,6 @@ import javax.servlet.ServletContextListener;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import dao.SongDAO;
-import listener.AddListener;
-import model.SongDTO;
-
 public class MusicManager  implements ServletContextListener{
 	public static void main(String[] args) {
 		
@@ -15,6 +11,8 @@ public class MusicManager  implements ServletContextListener{
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		
+		//Initialize the project
 		System.out.println("Initializing...");
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 	}

@@ -12,7 +12,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -43,6 +43,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>5.3.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>4.3.13.RELEASE</version>
 		</dependency>
 
 		<!-- JMS -->
@@ -91,10 +96,15 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- C-3P0 -->
-		<!-- <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> 
-			<version>0.9.1.2</version> </dependency> -->
+		
+		<!-- Music Manager API -->
+		<dependency>
+			<groupId>com.tma.music_manager</groupId>
+			<artifactId>music_manager_api</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/music_manager_api-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

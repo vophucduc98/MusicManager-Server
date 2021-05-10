@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean name="songs" class="dao.SongDAO">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="messagePublisher" ref="messagePublisher"></property>
+	</bean>
+	
+	<bean id="aroundAdvice" class="thread.ThreadManagement" />
+
+	<bean name="proxy"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces"><value>api.SongDAOMbean</value></property>
+		<property name="target" ref="songs"/>
+		<property name="interceptorNames">
+			<list>
+				<value>aroundAdvice</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="exporter"
@@ -15,31 +29,16 @@
 				<entry key="SongManager:name=SongManager" value-ref="songs" />
 			</map>
 		</property>
-		<property name="notificationListenerMappings">
-			<map>
-				<entry key="songs">
-					<bean class="listener.AddListener"></bean>
-				</entry>
-			</map>
-		</property>
 		<property name="registrationBehaviorName"
 			value="REGISTRATION_IGNORE_EXISTING" />
 	</bean>
 
-	<!-- JMS -->
-	<!-- <bean id="connectionFactory" -->
-	<!-- class="org.apache.activemq.ActiveMQConnectionFactory"> -->
-	<!-- <property name="brokerURL" value="tcp://localhost:61616" /> -->
-	<!-- <property name="userName" value="admin" /> -->
-	<!-- <property name="password" value="admin" /> -->
-	<!-- </bean> -->
-
+	<!-- Wildfly/JMSMessaging(Start) -->
 	<bean id="connectionFactory"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName"
 			value="java:jboss/exported/jms/RemoteConnectionFactory" />
 	</bean>
-
 	<bean id="myConnectionFactory"
 		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
 		<property name="targetConnectionFactory"
@@ -47,39 +46,26 @@
 		<property name="username" value="vpduc" />
 		<property name="password" value="vpduc" />
 	</bean>
-
 	<bean id="messagePublisher" class="jms.JMSPublisher">
 		<property name="jmsTemplate" ref="jmsTemplate" />
 		<property name="topic" ref="messageDestination"></property>
 	</bean>
-
 	<bean id="jmsTemplate"
 		class="org.springframework.jms.core.JmsTemplate">
 		<constructor-arg ref="myConnectionFactory" />
 	</bean>
-
-	<!-- <bean id="messageDestination" -->
-	<!-- class="org.apache.activemq.command.ActiveMQTopic"> -->
-	<!-- <constructor-arg value="song-added-event" /> -->
-	<!-- </bean> -->
 	<bean id="messageDestination"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/jmstopic" />
 	</bean>
+	<!-- Wildfly/JMSMessaging(End) -->
 
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
-		destroy-method="close"> <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property> 
-		<property name="url" value="jdbc:mariadb://localhost:3306/probation"></property> 
-		<property name="username" value="root"></property> <property name="password" 
-		value="Newworld2066@"></property> </bean> -->
-
-	<!-- Datasource -->
+	<!-- Wildfly/Datasource(Start) -->
 	<bean id="dataSource"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName"
 			value="java:jboss/datasources/MariaDB" />
 	</bean>
-
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
@@ -87,9 +73,9 @@
 		<property name="hibernateProperties"
 			value="classpath:hibernate.properties" />
 	</bean>
-
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<!-- Wildfly/Datasource(End) -->
 </beans>

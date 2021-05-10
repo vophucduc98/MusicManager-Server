@@ -1,8 +1,5 @@
 package model;
 
-import java.io.Serializable;
-import java.time.Duration;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// Song Data Transfer Object
+
 @Entity
 @Table(name = "songmanager")
-public class SongDTO implements Serializable{
+public class SongDTO{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

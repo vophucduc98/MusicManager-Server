@@ -1,7 +1,5 @@
 D:\Eclipse-Workspace.v2\music_manager\src\main\java\dao\SongDAO.java
 D:\Eclipse-Workspace.v2\music_manager\src\main\java\model\SongDTO.java
-D:\Eclipse-Workspace.v2\music_manager\src\main\java\controller\MainController.java
-D:\Eclipse-Workspace.v2\music_manager\src\main\java\listener\AddListener.java
-D:\Eclipse-Workspace.v2\music_manager\src\main\java\service\SongDAOMbean.java
+D:\Eclipse-Workspace.v2\music_manager\src\main\java\thread\ThreadManagement.java
 D:\Eclipse-Workspace.v2\music_manager\src\main\java\MusicManager.java
 D:\Eclipse-Workspace.v2\music_manager\src\main\java\jms\JMSPublisher.java
